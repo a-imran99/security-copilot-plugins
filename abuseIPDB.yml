@@ -39,7 +39,7 @@ paths:
           schema:
             type: string
             default: d33bd4342c60ab73e284131dbadbf7ac22e34bb3972b93b8d0ddcacbd3bc017c2c854d5de3c95a0a
-          required: true
+          required: false
       responses:
         '200':
           description: IP reputation information retrieved successfully
@@ -58,4 +58,5 @@ components:
       type: apiKey
       in: header
       name: Key
+
 
