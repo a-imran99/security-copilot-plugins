@@ -34,6 +34,12 @@ paths:
             default: true
           required: false
           description: Whether to include verbose output
+        - in: header
+          name: Key
+          schema:
+            type: string
+            default: d33bd4342c60ab73e284131dbadbf7ac22e34bb3972b93b8d0ddcacbd3bc017c2c854d5de3c95a0a
+          required: true
       responses:
         '200':
           description: IP reputation information retrieved successfully
@@ -52,3 +58,4 @@ components:
       type: apiKey
       in: header
       name: Key
+
