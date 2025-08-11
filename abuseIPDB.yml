@@ -1,62 +1,29 @@
 openapi: 3.0.0
 
 info:
-  title: AbuseIPDB
-  description: AbuseIPDB IP Reputation Check
+  title: Test_API_call
+  description: Calls test API endpoint from dummy json.
   version: "v2"
 
 servers:
-  - url: https://api.abuseipdb.com/api/v2
+  - url: https://dummyjson.com/
 
 paths:
-  /check:
+  /test:
     get:
-      operationId: AbuseIPDBCheck
-      summary: Check IP address reputation using AbuseIPDB
-      parameters:
-        - in: query
-          name: ipAddress
-          schema:
-            type: string
-          required: true
-          description: The IP address to check
-        - in: query
-          name: maxAgeInDays
-          schema:
-            type: integer
-            default: 90
-          required: false
-          description: Maximum age in days for reports
-        - in: query
-          name: verbose
-          schema:
-            type: boolean
-            default: true
-          required: false
-          description: Whether to include verbose output
-        - in: header
-          name: Key
-          schema:
-            type: string
-            default: d33bd4342c60ab73e284131dbadbf7ac22e34bb3972b93b8d0ddcacbd3bc017c2c854d5de3c95a0a
-          required: false
+      operationId: Test_API_call
+      summary: Check IP address info using IP-API
+      # parameters:
+      #   - in: path
+      #     name: ip
+      #     schema:
+      #       type: string
+      #     required: true
+      #     description: The IP address to check
       responses:
         '200':
-          description: IP reputation information retrieved successfully
+          description: IP information retrieved successfully
         '400':
           description: Invalid IP address or parameters
-        '401':
-          description: Unauthorized (invalid API key)
         '429':
           description: Rate limit exceeded
-      security:
-        - ApiKeyAuth: []
-
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: Key
-
-
