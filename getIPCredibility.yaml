@@ -1,0 +1,54 @@
+openapi: 3.0.0
+
+info:
+  title: AbuseIPDB
+  description: AbuseIPDB IP Reputation Check
+  version: "v2"
+
+servers:
+  - url: https://api.abuseipdb.com/api/v2
+
+paths:
+  /check:
+    get:
+      operationId: AbuseIPDBCheck
+      summary: Check IP address reputation using AbuseIPDB
+      parameters:
+        - in: query
+          name: ipAddress
+          schema:
+            type: string
+          required: true
+          description: The IP address to check
+        - in: query
+          name: maxAgeInDays
+          schema:
+            type: integer
+            default: 90
+          required: false
+          description: Maximum age in days for reports
+        - in: query
+          name: verbose
+          schema:
+            type: boolean
+            default: true
+          required: false
+          description: Whether to include verbose output
+      responses:
+        '200':
+          description: IP reputation information retrieved successfully
+        '400':
+          description: Invalid IP address or parameters
+        '401':
+          description: Unauthorized (invalid API key)
+        '429':
+          description: Rate limit exceeded
+      security:
+        - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
