@@ -12,14 +12,7 @@ paths:
   /test:
     get:
       operationId: Test_API_call
-      summary: Check IP address info using IP-API
-      # parameters:
-      #   - in: path
-      #     name: ip
-      #     schema:
-      #       type: string
-      #     required: true
-      #     description: The IP address to check
+      summary: Check API call.
       responses:
         '200':
           description: IP information retrieved successfully
@@ -27,3 +20,4 @@ paths:
           description: Invalid IP address or parameters
         '429':
           description: Rate limit exceeded
+
