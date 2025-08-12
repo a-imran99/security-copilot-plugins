@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: VirusTotal IP Address Threat Intelligence API
+  version: 1.0.0
+  description: |
+    Retrieve threat intelligence and reputation details for an IP address using the VirusTotal API v3.
+servers:
+  - url: https://www.virustotal.com/api
+paths:
+  /v3/ip_addresses/{ip}:
+    get:
+      summary: Get VirusTotal threat intelligence for an IP address
+      operationId: getIpThreatIntelligence
+      parameters:
+        - name: ip
+          in: path
+          description: IP address to look up
+          required: true
+          schema:
+            type: string
+            example: 8.8.8.8
+      responses:
+        '200':
+          description: Successful response with IP threat data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    description: IP address object with analysis details
+                example:
+                  data:
+                    id: 8.8.8.8
+                    type: ip_address
+                    attributes:
+                      as_owner: "Google LLC"
+                      country: "US"
+                      last_analysis_stats:
+                        harmless: 90
+                        malicious: 3
+                        suspicious: 1
+                        undetected: 5
+                      last_analysis_results:
+                        SomeAV:
+                          category: "harmless"
+                          result: "clean"
+                        AnotherAV:
+                          category: "malicious"
+                          result: "malware detected"
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-apikey
