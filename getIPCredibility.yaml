@@ -14,13 +14,6 @@ paths:
       operationId: AbuseIPDBCheck
       summary: Check IP address reputation using AbuseIPDB
       parameters:
-        - in: header
-          name: Key
-          schema:
-            type: string
-            default: d33bd4342c60ab73e284131dbadbf7ac22e34bb3972b93b
-          required: true
-          description: AbuseIPDB API Key (public demo key)
         - in: query
           name: ipAddress
           schema:
@@ -50,3 +43,12 @@ paths:
           description: Unauthorized (invalid API key)
         '429':
           description: Rate limit exceeded
+      security:
+        - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
