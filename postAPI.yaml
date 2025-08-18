@@ -37,31 +37,6 @@ paths:
       responses:
         '200':
           description: Successfully authenticated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    description: User ID
-                  username:
-                    type: string
-                  email:
-                    type: string
-                    format: email
-                  firstName:
-                    type: string
-                  lastName:
-                    type: string
-                  gender:
-                    type: string
-                  image:
-                    type: string
-                    format: uri
-                  token:
-                    type: string
-                    description: JWT access token
         '400':
           description: Invalid request (e.g. missing username or password)
         '401':
