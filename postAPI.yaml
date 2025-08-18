@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: DummyJSON Authentication API
+  version: "1.0.0"
+  description: API for user authentication and login
+
+servers:
+  - url: https://dummyjson.com
+
+paths:
+  /auth/login:
+    post:
+      summary: User login
+      description: Login with username and password to receive an authentication token.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: emilys
+                password:
+                  type: string
+                  format: password
+                  example: emilyspass
+                expiresInMins:
+                  type: integer
+                  description: Expiry time in minutes for the token (optional, defaults to 60).
+                  example: 30
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: User ID
+                  username:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  gender:
+                    type: string
+                  image:
+                    type: string
+                    format: uri
+                  token:
+                    type: string
+                    description: JWT access token
+        '400':
+          description: Invalid request (e.g. missing username or password)
+        '401':
+          description: Authentication failed (invalid username or password)
