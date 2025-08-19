@@ -18,27 +18,13 @@ paths:
         The `{id}` path parameter must be the URL-encoded version of the target URL.
       operationId: getUrlAnalysis
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
           schema:
             type: string
-          description: >
-            The URL-encoded identifier for the URL to be analyzed.  
-            Example: `https%3A%2F%2Fdummyjson.com%2Fusers`
-        - in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            default: application/json
-        - in: header
-          name: x-apikey
-          required: true
-          schema:
-            type: string
-          description: >
-            Your VirusTotal API key for authentication.
+            example: 'https://www.kvms.org.in/'
+          description: The URL-encoded identifier for the URL to be analyzed.
       responses:
         "200":
           description: Successful retrieval of URL analysis report
