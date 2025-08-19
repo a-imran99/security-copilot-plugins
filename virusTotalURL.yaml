@@ -16,7 +16,7 @@ paths:
       description: >
         Retrieves the detailed VirusTotal analysis report for a specific URL.
         The `{id}` path parameter must be the URL-encoded version of the target URL.
-      operationId: getUrlAnalysis
+      operationId: BeakUrlAnalysis
       parameters:
         - name: id
           in: path
