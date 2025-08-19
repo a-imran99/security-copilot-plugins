@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: VirusTotal URL Analysis API
+  description: >
+    This API retrieves analysis reports for a given URL using VirusTotal's v3 API.
+    The URL must be provided in its **URL-encoded form** (as per VirusTotal requirements).
+  version: "1.0.0"
+
+servers:
+  - url: https://www.virustotal.com/api/v3
+
+paths:
+  /urls/{id}:
+    get:
+      summary: Get URL Analysis Report
+      description: >
+        Retrieves the detailed VirusTotal analysis report for a specific URL.
+        The `{id}` path parameter must be the URL-encoded version of the target URL.
+      operationId: getUrlAnalysis
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: >
+            The URL-encoded identifier for the URL to be analyzed.  
+            Example: `https%3A%2F%2Fdummyjson.com%2Fusers`
+        - in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            default: application/json
+        - in: header
+          name: x-apikey
+          required: true
+          schema:
+            type: string
+          description: >
+            Your VirusTotal API key for authentication.
+      responses:
+        "200":
+          description: Successful retrieval of URL analysis report
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the analysis
+                      type:
+                        type: string
+                        example: "analysis"
+                      attributes:
+                        type: object
+                        description: Contains details of the scan results
+        "400":
+          description: Bad request – invalid URL or parameters
+        "401":
+          description: Unauthorized – invalid or missing API key
+        "404":
+          description: URL not found in VirusTotal database
+        "500":
+          description: Internal server error
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-apikey
+
+security:
+  - ApiKeyAuth: []
