@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: VirusTotal URL Analysis API
+  version: 1.0.0
+  description: |
+    This API allows you to submit URLs for analysis and retrieve their reports using VirusTotal's API v3.
+    - Use **POST /urls** to submit a raw URL for analysis.
+servers:
+  - url: https://www.virustotal.com/api/v3
+
+paths:
+  /urls:
+    post:
+      summary: Submit URL for Analysis
+      description: Submits a URL to VirusTotal for scanning. The response includes the analysis ID.
+      operationId: SubmitUrlAnalysis
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: The raw URL to be submitted for analysis.
+                  example: https://www.kvms.org.in/
+      responses:
+        "200":
+          description: URL submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: >
+                          The analysis ID, which is the Base64 URL-safe (no padding) encoded version of the URL.
+                        example: aHR0cHM6Ly93d3cua3Ztcy5vcmcuaW4v
+                      type:
+                        type: string
+                        example: analysis
+        "400":
+          description: Bad request – invalid URL or parameters
+        "401":
+          description: Unauthorized – invalid or missing API key
+        "500":
+          description: Internal server error
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-apikey
