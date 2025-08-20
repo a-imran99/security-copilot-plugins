@@ -7,15 +7,13 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: https://www.virustotal.com/api/v3
+  - url: https://www.virustotal.com/api
 
 paths:
-  /urls/{id}:
+  /v3/urls/{id}:
     get:
       summary: Get URL Analysis Report
-      description: >
-        Retrieves the detailed VirusTotal analysis report for a specific URL.
-        The `{id}` path parameter must be the URL-encoded version of the target URL.
+      description: Retrieves the detailed VirusTotal analysis report for a specific URL.
       operationId: BeakUrlAnalysis
       parameters:
         - name: id
