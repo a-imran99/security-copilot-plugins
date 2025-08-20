@@ -1,45 +1,32 @@
 openapi: 3.0.0
 info:
   title: VirusTotal URL Analysis API
-  description: >
-    This API retrieves analysis reports for a given URL using VirusTotal's v3 API.
-    The URL must be provided in its **URL-encoded form** (as per VirusTotal requirements).
-  version: "1.0.0"
-
+  version: 1.0.0
+  description: |
+    This API retrieves analysis reports for a given URL using VirusTotal's API v3.
 servers:
   - url: https://www.virustotal.com/api
-
 paths:
   /v3/urls/{url}:
     get:
       summary: Get URL Analysis Report
-      description: Retrieves the detailed VirusTotal analysis report for a specific URL.
       operationId: BeakUrlAnalysis
       parameters:
         - name: url
           in: path
+          description: The URL-encoded identifier for the URL to be analyzed.
           required: true
           schema:
             type: string
             example: 'https://www.kvms.org.in/'
-          description: The URL-encoded identifier for the URL to be analyzed.
       responses:
         "200":
           description: Successful retrieval of URL analysis report
-        "400":
-          description: Bad request – invalid URL or parameters
-        "401":
-          description: Unauthorized – invalid or missing API key
-        "404":
-          description: URL not found in VirusTotal database
-        "500":
-          description: Internal server error
+      security:
+        - ApiKeyAuth: []
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: x-apikey
-
-security:
-  - ApiKeyAuth: []
