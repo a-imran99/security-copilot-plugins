@@ -10,13 +10,13 @@ servers:
   - url: https://www.virustotal.com/api
 
 paths:
-  /v3/urls/{id}:
+  /v3/urls/{url}:
     get:
       summary: Get URL Analysis Report
       description: Retrieves the detailed VirusTotal analysis report for a specific URL.
       operationId: BeakUrlAnalysis
       parameters:
-        - name: id
+        - name: url
           in: path
           required: true
           schema:
@@ -26,23 +26,6 @@ paths:
       responses:
         "200":
           description: Successful retrieval of URL analysis report
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier for the analysis
-                      type:
-                        type: string
-                        example: "analysis"
-                      attributes:
-                        type: object
-                        description: Contains details of the scan results
         "400":
           description: Bad request – invalid URL or parameters
         "401":
