@@ -9,12 +9,12 @@ servers:
 paths:
   /v3/urls/{url}:
     get:
-      summary: Get URL Analysis Report
+      summary: Get VirusTotal URL threat intelligence for an URL
       operationId: BeakUrlAnalysis
       parameters:
-        - name: url
+        - name: {url}
           in: path
-          description: The URL-encoded identifier for the URL to be analyzed.
+          description: The url given provided by the user and passed to the API endpoint.
           required: true
           schema:
             type: string
