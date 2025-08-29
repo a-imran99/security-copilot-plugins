@@ -18,7 +18,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
           description: Unique thread identifier (generated on client side)
       security:
         - ApiKeyAuth: []
