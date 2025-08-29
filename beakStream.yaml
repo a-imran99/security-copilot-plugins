@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: AI Studio API
+  version: 1.0.0
+  description: API for interacting with AI assistant threads.
+
+servers:
+  - url: https://ai-qa.beakops.com/api/bitc
+
+paths:
+  /runs/stream:
+    post:
+      summary: Stream a message to the assistant
+      operationId: streamMessage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        example: "hi how can you help me"
+                      additional_kwargs:
+                        type: object
+                        additionalProperties: true
+                        example: {}
+                      type:
+                        type: string
+                        enum: [human, ai, system]
+                        example: human
+                      example:
+                        type: boolean
+                        example: false
+                assistant_id:
+                  type: string
+                  format: uuid
+                  example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
+                thread_id:
+                  type: string
+                  format: uuid
+                  example: "f64dd8b0-e325-48df-9764-ee4aa304c813"
+                aistudio:
+                  type: boolean
+                  example: true
+              required:
+                - input
+                - assistant_id
+                - thread_id
+      responses:
+        "200":
+          description: Successful response (streamed)
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+
+  /threads/{uuid}:
+    put:
+      summary: Create a new thread with the assistant
+      operationId: createThread
+      parameters:
+        - in: path
+          name: uuid
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique thread identifier (generated on client side)
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assistant_id:
+                  type: string
+                  format: uuid
+                  example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
+                name:
+                  type: string
+                  example: "Hello AI"
+              required:
+                - assistant_id
+                - name
+      responses:
+        "201":
+          description: Thread created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  thread_id:
+                    type: string
+                    format: uuid
+                    example: "3e2d7f10-2a87-4c5c-9b70-3f7e4a8aef45"
+                  name:
+                    type: string
+                    example: "Hello AI"
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
