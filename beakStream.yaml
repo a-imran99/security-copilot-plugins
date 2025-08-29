@@ -24,22 +24,9 @@ paths:
                 input:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      content:
-                        type: string
-                        example: "hi how can you help me"
-                      additional_kwargs:
-                        type: object
-                        additionalProperties: true
-                        example: {}
-                      type:
-                        type: string
-                        enum: [human, ai, system]
-                        example: human
-                      example:
-                        type: boolean
-                        example: false
+                    type: string
+                  example:
+                    - "hi how can you help me"
                 assistant_id:
                   type: string
                   format: uuid
@@ -64,7 +51,7 @@ paths:
           description: Unauthorized
 
   /threads/{uuid}:
-    put:
+    post:
       summary: Create a new thread with the assistant
       operationId: createThread
       parameters:
