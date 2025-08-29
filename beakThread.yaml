@@ -31,7 +31,6 @@ paths:
               properties:
                 assistant_id:
                   type: string
-                  format: uuid
                   example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
                 name:
                   type: string
