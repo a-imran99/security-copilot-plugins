@@ -8,13 +8,13 @@ servers:
   - url: https://ai-qa.beakops.com/api/bitc
 
 paths:
-  /threads/{uuid}:
+  /threads/{id}:
     post:
       summary: Create a new thread with the assistant
       operationId: createThread
       parameters:
         - in: path
-          name: uuid
+          name: id
           required: true
           schema:
             type: string
