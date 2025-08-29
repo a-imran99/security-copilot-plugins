@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: AI Studio API - Threads
+  version: 1.0.0
+  description: API for creating assistant threads.
+
+servers:
+  - url: https://ai-qa.beakops.com/api/bitc
+
+paths:
+  /threads/{uuid}:
+    post:
+      summary: Create a new thread with the assistant
+      operationId: createThread
+      parameters:
+        - in: path
+          name: uuid
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique thread identifier (generated on client side)
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assistant_id:
+                  type: string
+                  format: uuid
+                  example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
+                name:
+                  type: string
+                  example: "Hello AI"
+              required:
+                - assistant_id
+                - name
+      responses:
+        "201":
+          description: Thread created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  thread_id:
+                    type: string
+                    format: uuid
+                    example: "3e2d7f10-2a87-4c5c-9b70-3f7e4a8aef45"
+                  name:
+                    type: string
+                    example: "Hello AI"
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
