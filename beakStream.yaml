@@ -19,14 +19,27 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: object  
               properties:
                 input:
                   type: array
                   items:
-                    type: string
-                  example:
-                    - "hi how can you help me"
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        example: "hi how can you help me"
+                      additional_kwargs:
+                        type: object
+                        additionalProperties: true
+                        example: {}
+                      type:
+                        type: string
+                        enum: [human, ai, system]
+                        example: human
+                      example:
+                        type: boolean
+                        example: false
                 assistant_id:
                   type: string
                   format: uuid
