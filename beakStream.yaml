@@ -1,122 +1,71 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: AI Studio API
+  title: BeakOps Copilot Stream API
+  description: API to send content to Copilot and stream responses.
   version: 1.0.0
-  description: API for interacting with AI assistant threads.
-
 servers:
   - url: https://ai-qa.beakops.com/api/bitc
-
 paths:
-  /runs/stream:
+  /runs/copilot/stream:
     post:
-      summary: Stream a message to the assistant
-      operationId: streamMessage
+      summary: Send content to Copilot (streaming response)
+      operationId: copilotStream
+      tags:
+        - Copilot
       security:
         - ApiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object  
-              properties:
-                input:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      content:
-                        type: string
-                        example: "hi how can you help me"
-                      additional_kwargs:
-                        type: object
-                        additionalProperties: true
-                        example: {}
-                      type:
-                        type: string
-                        enum: [human, ai, system]
-                        example: human
-                      example:
-                        type: boolean
-                        example: false
-                assistant_id:
-                  type: string
-                  format: uuid
-                  example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
-                thread_id:
-                  type: string
-                  format: uuid
-                  example: "f64dd8b0-e325-48df-9764-ee4aa304c813"
-                aistudio:
-                  type: boolean
-                  example: true
-              required:
-                - input
-                - assistant_id
-                - thread_id
-      responses:
-        "200":
-          description: Successful response (streamed)
-        "400":
-          description: Bad Request
-        "401":
-          description: Unauthorized
-
-  /threads/{uuid}:
-    post:
-      summary: Create a new thread with the assistant
-      operationId: createThread
       parameters:
-        - in: path
-          name: uuid
+        - name: opengpts-user-id
+          in: header
           required: true
           schema:
             type: string
-            format: uuid
-          description: Unique thread identifier (generated on client side)
-      security:
-        - ApiKeyAuth: []
+          description: The BeakOps user ID.
+        - name: emailid
+          in: header
+          required: true
+          schema:
+            type: string
+            format: email
+          description: The email ID of the user.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - content
+                - assistant_id
               properties:
+                content:
+                  type: string
+                  description: The message sent to the copilot.
+                  example: Hi
                 assistant_id:
                   type: string
-                  format: uuid
-                  example: "cfb458bb-09d1-4131-8b03-2b6249750eed"
-                name:
-                  type: string
-                  example: "Hello AI"
-              required:
-                - assistant_id
-                - name
+                  description: Unique identifier of the copilot assistant.
+                  example: cfb458bb-09d1-4131-8b03-2b6249750eed
       responses:
-        "201":
-          description: Thread created successfully
+        '200':
+          description: Streamed response from the copilot.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  thread_id:
+                  message:
                     type: string
-                    format: uuid
-                    example: "3e2d7f10-2a87-4c5c-9b70-3f7e4a8aef45"
-                  name:
-                    type: string
-                    example: "Hello AI"
-        "400":
-          description: Bad Request
-        "401":
-          description: Unauthorized
-
+                    description: The response message from the copilot.
+        '400':
+          description: Bad request (e.g. invalid assistant_id).
+        '401':
+          description: Unauthorized (invalid API key).
+        '500':
+          description: Internal server error.
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
-      name: Api-Key
+      name: API-Key
