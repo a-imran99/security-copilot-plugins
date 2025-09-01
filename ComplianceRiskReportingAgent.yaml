@@ -9,7 +9,7 @@ paths:
   /runs/copilot/stream:
     post:
       summary: Send content to agent (streaming response)
-      operationId: copilotStream
+      operationId: complianceAndRiskReportSkill
       tags:
         - Copilot
       security:
