@@ -1,33 +1,19 @@
 openapi: 3.0.3
 info:
-  title: BeakOps Copilot Stream API
-  description: API to send content to Copilot and stream responses.
+  title: Compliance and Risk reporting agent
+  description: This agent evaluates device and security configuration data collected from Beak RMM against defined compliance frameworks.
   version: 1.0.0
 servers:
   - url: https://ai-qa.beakops.com/api/bitc
 paths:
   /runs/copilot/stream:
     post:
-      summary: Send content to Copilot (streaming response)
-      operationId: copilotStream
+      summary: Compliance and Risk reporting agent (response)
+      operationId: ComplianceRiskReportingAgent
       tags:
-        - Copilot
+        - ComplianceRiskReportingAgent
       security:
         - ApiKeyAuth: []
-      parameters:
-        - name: opengpts-user-id
-          in: header
-          required: true
-          schema:
-            type: string
-          description: The BeakOps user ID.
-        - name: emailid
-          in: header
-          required: true
-          schema:
-            type: string
-            format: email
-          description: The email ID of the user.
       requestBody:
         required: true
         content:
@@ -36,19 +22,14 @@ paths:
               type: object
               required:
                 - content
-                - assistant_id
               properties:
                 content:
                   type: string
-                  description: The message sent to the copilot.
+                  description: The message sent to the agent.
                   example: Hi
-                assistant_id:
-                  type: string
-                  description: Unique identifier of the copilot assistant.
-                  example: cfb458bb-09d1-4131-8b03-2b6249750eed
       responses:
         '200':
-          description: Streamed response from the copilot.
+          description: Streamed response from the agent.
           content:
             application/json:
               schema:
