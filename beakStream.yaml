@@ -1,17 +1,15 @@
 openapi: 3.0.3
 info:
-  title: BeakOps Copilot Stream API
-  description: API to send content to Copilot and stream responses.
+  title: BeakOps Stream API
+  description: API to send content to Beak AI and stream responses.
   version: 1.0.0
 servers:
   - url: https://ai-qa.beakops.com/api/bitc
 paths:
   /runs/copilot/stream:
     post:
-      summary: Send content to Copilot (streaming response)
-      operationId: copilotStream
-      tags:
-        - Copilot
+      summary: Send content to Beak AI (streaming response)
+      operationId: beakStreamAPI
       security:
         - ApiKeyAuth: []
       parameters:
