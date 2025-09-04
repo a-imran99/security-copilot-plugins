@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Beak Move To Junk API
+  title: Beak Move To Junk
   description: API to send email to Junk using Beak AI.
   version: 1.0.0
 servers:
