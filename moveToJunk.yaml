@@ -9,7 +9,7 @@ paths:
   /runs/copilot/stream:
     post:
       summary: API to send email to Junk using Beak AI.
-      operationId: beakMoveToJunk
+      operationId: moveToJunk
       security:
         - ApiKeyAuth: []
       parameters:
