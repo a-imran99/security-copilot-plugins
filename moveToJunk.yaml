@@ -1,75 +1,69 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
-  title: MoveToJunk API
-  description: API to move suspicious emails to the Junk folder using Microsoft Graph Security.
+  title: Beak Move To Junk API
+  description: API to send email to Junk using Beak AI.
   version: 1.0.0
 servers:
-  - url: https://graph.microsoft.com/beta
+  - url: https://ai-dev.beakops.com/api/bitc
 paths:
-  /security/collaboration/analyzedEmails/remediate:
+  /runs/copilot/stream:
     post:
-      summary: Move suspicious email to Junk
-      description: Moves an analyzed email to the Junk folder.
-      operationId: moveToJunk
+      summary: API to send email to Junk using Beak AI.
+      operationId: beakMoveToJunk
       security:
-        - oauth2: ["https://graph.microsoft.com/.default"]
+        - ApiKeyAuth: []
+      parameters:
+        - name: opengpts-user-id
+          in: header
+          required: true
+          schema:
+            type: string
+          description: The BeakOps user ID.
+        - name: emailid
+          in: header
+          required: true
+          schema:
+            type: string
+            format: email
+          description: The email ID of the user.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - content
+                - assistant_id
               properties:
-                displayName:
+                content:
                   type: string
-                  example: "Move suspicious email to Junk"
-                description:
+                  description: The message sent to the copilot.
+                  example: Hi
+                assistant_id:
                   type: string
-                  example: "Remediation automated by Security Copilot plugin"
-                severity:
-                  type: string
-                  enum: [low, medium, high]
-                  example: "medium"
-                action:
-                  type: string
-                  enum: [moveToJunk]
-                  example: "moveToJunk"
-                remediateSendersCopy:
-                  type: boolean
-                  example: false
-                analyzedEmails:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      networkMessageId:
-                        type: string
-                        example: "0280f2cc-b1e6-442b-485c-08dde4cf6818"
-                      recipientEmailAddress:
-                        type: string
-                        example: "manivannan@limslabs.onmicrosoft.com"
+                  description: Unique identifier of the copilot assistant.
+                  example: cfb458bb-09d1-4131-8b03-2b6249750eed
       responses:
         '200':
-          description: Email moved to Junk successfully.
+          description: Streamed response from the copilot.
           content:
             application/json:
               schema:
                 type: object
+                properties:
+                  message:
+                    type: string
+                    description: The response message from the copilot.
         '400':
-          description: Bad Request – Invalid input.
+          description: Bad request (e.g. invalid assistant_id).
         '401':
-          description: Unauthorized – Access token missing or invalid.
-        '403':
-          description: Forbidden – Insufficient permissions.
+          description: Unauthorized (invalid API key).
         '500':
-          description: Internal Server Error.
+          description: Internal server error.
 components:
   securitySchemes:
-    oauth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
-          tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
-          scopes:
-            "https://graph.microsoft.com/.default": Access Microsoft Graph API
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: API-Key
