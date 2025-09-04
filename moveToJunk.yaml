@@ -12,7 +12,7 @@ paths:
       description: Moves an analyzed email to the Junk folder.
       operationId: moveToJunk
       security:
-        - oauth2: [https://graph.microsoft.com/.default]
+        - oauth2: ["https://graph.microsoft.com/.default"]
       requestBody:
         required: true
         content:
@@ -72,4 +72,4 @@ components:
           authorizationUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
           tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
           scopes:
-            https://graph.microsoft.com/.default: Access Microsoft Graph API
+            "https://graph.microsoft.com/.default": Access Microsoft Graph API
