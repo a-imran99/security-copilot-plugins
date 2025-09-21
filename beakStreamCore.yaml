@@ -9,7 +9,7 @@ paths:
   /runs/copilot/stream:
     post:
       summary: This is the core API call which connects to different agent
-      operationId: BeakStreamCore
+      operationId: RemediateEmail
       security:
         - ApiKeyAuth: []
       parameters:
